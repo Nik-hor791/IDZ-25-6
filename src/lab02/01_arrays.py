@@ -3,7 +3,7 @@ from turtledemo.sorting_animate import instructions1
 
 def min_max(nums):
     if nums == []:
-        return ('value error')
+        return ('TypeError')
     else:
         t = (min(nums) , max(nums))
     return t
@@ -23,10 +23,6 @@ def flatten(mat):
             return ('TypeError')
     return (t)
 
-        #if type(i) == list:
-
-        #else:
-         #   return ('value error')
 
 print (min_max([3, -1, 5, 5, 0]))
 print (min_max([42]))
