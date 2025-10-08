@@ -15,7 +15,7 @@ def format_record(rec):
         vivod += (', ')
 
 
-    vivod += 'гр. ' + rec[1] + ', GPA' + f'{round(rec[2],2):.2f}'
+    vivod += 'гр. ' + rec[1] + ', GPA ' + f'{round(rec[2],2):.2f}'
     return vivod
 
 print(format_record(("Иванов Иван Иванович", "BIVT-25", 4.6)))
