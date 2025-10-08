@@ -92,9 +92,9 @@ def flatten(mat):
         else:
             return ('TypeError')
     return (t)
-
-
 ```
+
+![alt text](images/lab02/01.img..png)
 
 Задание 2-ое
 
@@ -118,6 +118,7 @@ def transpose(mat):
             return trans
         else:
             return ('ValueError')
+
 
 
 def row_sums(mat):
@@ -161,6 +162,8 @@ def col_sums(mat):
         return t
 ```
 
+![alt text](images/lab02/02.img.png)
+
 Задание 3-е
 
 ```python
@@ -182,3 +185,5 @@ def format_record(rec):
     vivod += 'гр. ' + rec[1] + ', GPA' + f'{round(rec[2],2):.2f}'
     return vivod
 ```
+
+![alt text](images/lab02/03.img..png)
