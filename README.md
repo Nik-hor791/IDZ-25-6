@@ -186,4 +186,4 @@ def format_record(rec):
     return vivod
 ```
 
-![alt text](images/lab02/03.img..png)
+![alt text](images/lab02/03.img.png)
