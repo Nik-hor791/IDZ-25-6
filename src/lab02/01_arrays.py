@@ -1,6 +1,5 @@
 from turtledemo.sorting_animate import instructions1
 
-
 def min_max(nums):
     if nums == []:
         return ('TypeError')
@@ -22,6 +21,9 @@ def flatten(mat):
         else:
             return ('TypeError')
     return (t)
+
+
+
 
 
 print (min_max([3, -1, 5, 5, 0]))

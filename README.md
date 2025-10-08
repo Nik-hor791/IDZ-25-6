@@ -67,3 +67,118 @@ print("Длина (символов):",ll)
 ![alt text](images/lab01/05.img.png)
 
 # Лаба 2
+
+Задание 1-ое
+
+```python
+def min_max(nums):
+    if nums == []:
+        return ('TypeError')
+    else:
+        t = (min(nums) , max(nums))
+    return t
+
+
+
+def unique_sorted(nums):
+    t = sorted(list(set(nums)))
+    return t
+
+def flatten(mat):
+    t = list ()
+    for i in mat:
+        if type(i) == list or type(i) == tuple:
+            t.extend(i)
+        else:
+            return ('TypeError')
+    return (t)
+
+
+```
+
+Задание 2-ое
+
+```python
+def transpose(mat):
+    if mat == []:
+        return mat
+    else:
+        #Проверка на рванность
+        l_mat = len(mat[0])
+        ok = 1
+        for i in mat:
+            if len(i) != l_mat:
+                ok = 0
+            else:
+                ok = 1
+        #Проверка на рванность
+        if ok == 1:
+
+            trans = [[mat[j][i] for j in range(len(mat))] for i in range(len(mat[0]))]
+            return trans
+        else:
+            return ('ValueError')
+
+
+def row_sums(mat):
+    # Проверка на рванность
+    l_mat = len(mat[0])
+    ok = 1
+    for i in mat:
+        if len(i) != l_mat:
+            ok = 0
+        else:
+            ok = 1
+    # Проверка на рванность
+    if ok == 1:
+        t = list()
+        for i in mat:
+            s = sum(i)
+            t = t + [s]
+        return t
+    else: ('ValueError')
+
+
+def col_sums(mat):
+    # Проверка на рванность
+    l_mat = len(mat[0])
+    ok = 1
+    for i in mat:
+        if len(i) != l_mat:
+            ok = 0
+        else:
+            ok = 1
+    # Проверка на рванность
+    if ok == 1:
+        t = list()
+        i_num_sum = 0
+        for num in range(0, l_mat):
+            for i in mat:
+                i_num_sum = i_num_sum + i[num]
+
+            t = t + [i_num_sum]
+            i_num_sum = 0
+        return t
+```
+
+Задание 3-е
+
+```python
+def format_record(rec):
+    if len(rec) != 3: #Проверка: колличество элементов
+        return ("ValueError")
+    if type(rec[0]) != str or type(rec[1]) != str or type(rec[2]) != float: #Проверка: тип элементов
+        return ("TypeError")
+
+    Name_split = rec[0].split()
+    vivod = Name_split[0].title() + ' ' + Name_split[1][0].upper() +'.'
+
+    if len(Name_split) == 3:
+        vivod += Name_split[2][0] + '., '
+    else:
+        vivod += (', ')
+
+
+    vivod += 'гр. ' + rec[1] + ', GPA' + f'{round(rec[2],2):.2f}'
+    return vivod
+```
