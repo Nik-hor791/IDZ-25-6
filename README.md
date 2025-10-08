@@ -94,7 +94,7 @@ def flatten(mat):
     return (t)
 ```
 
-![alt text](images/lab02/01.img..png)
+![alt text](images/lab02/01.img.png)
 
 Задание 2-ое
 
