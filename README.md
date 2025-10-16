@@ -187,3 +187,109 @@ def format_record(rec):
 ```
 
 ![alt text](images/lab02/03.img.png)
+
+# Лаба 3
+
+Задание 1-ое
+
+```python
+
+def normalize(text: str, *, casefold: bool = True, yo2e: bool = True):
+    if casefold:
+        text = text.casefold()
+    if yo2e:
+        text = text.replace('ё', 'е')
+
+    if '\t' in text or '\r' in text or '\n' in text:
+        text = text.replace('\t', ' ')
+        text = text.replace('\r', ' ')
+        text = text.replace('\n', ' ')
+
+    s = text.split()
+    itog = ''
+    for i in s:
+        itog = itog + ' ' + str(i)
+
+    itog = itog.strip()
+
+    return itog
+
+def tokenize(text: str):
+    text = normalize(text)
+
+    pct_to_rplc = [',', '.', '!', '?', ';', ':', '(', ')', '[', ']', '{', '}', '"', "'"]
+
+    for rep in pct_to_rplc:
+        text = text.replace(rep, ' ')
+
+    text_split = text.split()
+
+    itog = list()
+
+    for el in text_split:
+        ok = 1
+        for smbl in el:
+            if smbl.isalnum():
+                ok = 1
+            else:
+                ok = 0
+
+        if ok == 1:
+            itog = itog + [el]
+
+
+    return itog
+
+def count_freq(tokens: list[str]):
+    uniq = list(set(tokens))
+
+    l = list()
+
+    for el in uniq:
+        kort = (el, tokens.count(el))
+        l = l + [kort]
+
+    d = dict(l)
+
+    return d
+
+def top_n(freq: dict[str, int], n: int = 5):
+
+    sorted_freq = sorted(freq.items(), key=lambda item: item[1], reverse = True)
+
+    l = list(sorted_freq)
+
+    alph = []
+    alph_sort = []
+
+    for el_in_l in range(0, len(l) - 2):
+        if l[el_in_l][1] == l[el_in_l + 1][1]:
+            alph = [l[el_in_l]] + [l[el_in_l + 1]]
+            del l[el_in_l]
+            del l[el_in_l]
+            alph_sort = sorted(alph)
+
+            l = alph_sort + l
+
+    itog = l[:n]
+
+    return itog
+```
+![alt text](images/lab03/01.img.png.png)
+
+Задание 2-ое
+
+```python
+from src.lib.text import *
+
+t = "Привет, мир! Привет!!!"
+
+print("Всего слов:", len(tokenize(t)))
+print("Уникальных слов:", len(count_freq(tokenize(t))))
+print("Топ-5:")
+
+for top_num in range(0, len(count_freq(tokenize(t)))):
+    print ( top_n(count_freq(tokenize(t)), 5)[top_num][0],': ',top_n(count_freq(tokenize(t)), 5)[top_num][1], sep='')
+```
+
+![alt text](images/lab03/02.img.png.png)
