@@ -9,7 +9,7 @@ except ImportError as e:
     sys.exit(f"Ошибка импорта: {e}")
 
 def main():
-    input_file = 'src\\lab04\\text.test'
+    input_file = 'C:\\Users\\Hp\\Desktop\\IDZ-25-6\\src\\lab04\\text.test'
     output_file = 'src\\lab04\\table.csv'
 
     try:
