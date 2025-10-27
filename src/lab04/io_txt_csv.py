@@ -1,17 +1,36 @@
-from src.lib.text import normalize
-from src.lib.text import tokenize
 
 import csv
 from pathlib import Path
-from typing import Iterable, Sequence
-from collections import Counter
 
-path = "src\data\lab04\input.txt"
 
 def read_text(path: str | Path, encoding: str = "utf-8") -> str:
+    with open(path, 'r', encoding=encoding) as f:
+        return f.read()
 
-    file = open(path).read()
 
-    return file
+def write_csv(rows: list[tuple | list], path: str | Path, header: tuple[str, ...] | None = None) -> None:
+    if rows and len(set(len(row) for row in rows)) != 1:
+        raise ValueError("Все строки должны иметь одинаковую длину")
 
-print(read_text(path))
+    with open(path, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        if header:
+            writer.writerow(header)
+        writer.writerows(rows)
+
+
+if __name__ == "__main__":
+    try:
+        txt = read_text('src/lab04/Text.test')
+        print(f"Прочитано: {txt}")
+    except FileNotFoundError:
+        print("Файл text.test не найден")
+
+    write_csv([("word", "count"), ("test", 3)], "table.csv")
+    print("файл csv создан!")
+
+
+
+
+
+print(read_text('C:\\Users\\Hp\\Desktop\\IDZ-25-6\\src\\data\\lab04\\input.txt'))
