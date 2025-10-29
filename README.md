@@ -331,6 +331,7 @@ if __name__ == "__main__":
     write_csv([("word", "count"), ("test", 3)], "table.csv")
     print("файл csv создан!")
 ```
+
 ![alt text](images/lab04/01.img.png)
 
 Задание 2-ое
