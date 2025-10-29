@@ -1,4 +1,3 @@
-
 import csv
 from pathlib import Path
 
@@ -21,7 +20,7 @@ def write_csv(rows: list[tuple | list], path: str | Path, header: tuple[str, ...
 
 if __name__ == "__main__":
     try:
-        txt = read_text('src/lab04/Text.test')
+        txt = read_text('text.test')
         print(f"Прочитано: {txt}")
     except FileNotFoundError:
         print("Файл text.test не найден")
@@ -33,4 +32,3 @@ if __name__ == "__main__":
 
 
 
-print(read_text('C:\\Users\\Hp\\Desktop\\IDZ-25-6\\src\\data\\lab04\\input.txt'))
