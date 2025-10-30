@@ -25,7 +25,7 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print("Файл text.test не найден")
 
-    write_csv([("word", "count"), ("test", 3)], "table.csv")
+    write_csv([("word", "count"), ("test", 3)], "table.json")
     print("файл csv создан!")
 
 
