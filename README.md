@@ -1,3 +1,114 @@
+#Лаба 5
+
+Задание А 
+```python
+from pathlib import Path
+import json
+import csv
+
+def json_to_csv(json_path, csv_path):
+    json_file = Path(json_path)
+    csv_file = Path(csv_path)
+
+    if not json_file.exists():
+        raise FileNotFoundError("Файл не найден")
+
+    if json_file.suffix.lower() != ".json":
+        raise ValueError("Неверный формат файла")
+    if csv_file.suffix.lower() != ".csv":
+        raise ValueError("Неверный формат файла")
+
+
+    with json_file.open('r', encoding="utf-8") as f:
+        try:
+            data = json.load(f)
+        except json.JSONDecodeError:
+            raise ValueError("Некорректный JSON-файл")
+    if not isinstance(data, list) or not all(isinstance(value, dict) for value in data):
+        raise ValueError("Ожидается список словарей")
+    if not data:
+        raise ValueError("Пустой JSON")
+
+    header = list(data[0].keys())
+    with csv_file.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=header)
+        writer.writeheader()
+        for row in data:
+            writer.writerow({k: row.get(k, "") for k in header})
+
+def csv_to_json(csv_path, json_path):
+    json_file = Path(json_path)
+    csv_file = Path(csv_path)
+
+    if not json_file.exists():
+        raise FileNotFoundError("Файл не найден")
+
+    if json_file.suffix.lower() != ".json":
+        raise ValueError("Неверный формат файла")
+    if csv_file.suffix.lower() != ".csv":
+        raise ValueError("Неверный формат файла")
+
+
+    with csv_file.open(encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        if reader.fieldnames is None:
+            raise ValueError("CSV не содержит заголовок")
+        data = [row for row in reader]
+    if not data:
+        raise ValueError("Пустой CSV")
+
+    with json_file.open("w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+```
+![alt text](images/lab05/out_json.png)
+![alt text](images/lab05/out_csv.png)
+Задание B
+```python
+from pathlib import Path
+import csv
+from openpyxl import Workbook
+
+def csv_to_xlsx(csv_path, xlsx_path):
+    csv_file = Path(csv_path)
+    xlsx_file = Path(xlsx_path)
+
+    if csv_file.suffix.lower() != ".csv":
+        raise ValueError("Неверный формат файла")
+    if xlsx_file.suffix.lower() != ".xlsx":
+        raise ValueError("Неверный формат файла")
+
+    if not csv_file.exists():
+        raise FileNotFoundError("Файл CSV не найден")
+    if not xlsx_file.exists():
+        raise FileNotFoundError("Файл XLSX не найден")
+
+    with csv_file.open("r", encoding="utf-8", newline="") as f:
+        reader = csv.reader(f)
+        rows = list(reader)
+
+    if not rows or all(not any(row) for row in rows):
+        raise ValueError("Пустой CSV или неподдерживаемая структура")
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Sheet1"
+
+    for row in rows:
+        ws.append(row)
+
+    for col in ws.columns:
+        max_len = max(len(str(cell.value or "")) for cell in col)
+        col_letter = col[0].column_letter
+        ws.column_dimensions[col_letter].width = max(max_len + 2, 8)
+
+    wb.save(xlsx_file)
+```
+![`alt text`](images/lab05/out_xlsx.png)
+
+
+
+
+
 # Лаба 1
 
 Задание 1-ое
