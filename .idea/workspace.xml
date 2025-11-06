@@ -4,25 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="635a5e94-4969-4492-9d94-14937eb0befe" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/IDZ-25-6.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/lab04/a.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data/lab04/a.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/out/people.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/out/people.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/out/people_from_csv.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/out/people_from_csv.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/out/people_from_json.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/out/people_from_json.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/samples/cities.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/samples/cities.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/samples/people.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/samples/people.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/samples/people.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/samples/people.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lab04/io_txt_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/lab04/io_txt_csv.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lab04/table.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lab04/table.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/lab04/table.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lab05/cvs_xlsx.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/lab05/cvs_xlsx.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lab05/json_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/lab05/json_csv.py" afterDir="false" />
-    </list>
+    <list default="true" id="635a5e94-4969-4492-9d94-14937eb0befe" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

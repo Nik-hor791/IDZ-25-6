@@ -106,76 +106,216 @@ def csv_to_xlsx(csv_path, xlsx_path):
 ![`alt text`](images/lab05/out_xlsx.png)
 
 
+# Лaба 4
 
-
-
-# Лаба 1
+Текст в тестовом файле:
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum".
 
 Задание 1-ое
-
 ```python
-Name=str(input("Имя:"))
-Age=int(input("Возраст:"))
+import csv
+from pathlib import Path
 
-print("Привет,",Name,"! Через год тебе будет",Age+1)
+
+def read_text(path: str | Path, encoding: str = "utf-8") -> str:
+    with open(path, 'r', encoding=encoding) as f:
+        return f.read()
+
+
+def write_csv(rows: list[tuple | list], path: str | Path, header: tuple[str, ...] | None = None) -> None:
+    if rows and len(set(len(row) for row in rows)) != 1:
+        raise ValueError("Все строки должны иметь одинаковую длину")
+
+    with open(path, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        if header:
+            writer.writerow(header)
+        writer.writerows(rows)
+
+
+if __name__ == "__main__":
+    try:
+        txt = read_text('src/lab04/Text.test')
+        print(f"Прочитано: {txt}")
+    except FileNotFoundError:
+        print("Файл text.test не найден")
+
+    write_csv([("word", "count"), ("test", 3)], "table.csv")
+    print("файл csv создан!")
 ```
 
-![alt text](images/lab01/01.img.png)
+![alt text](images/lab04/01.img.png)
 
 Задание 2-ое
 
 ```python
-a=float(input('a:'))
-b=float(input('b:'))
+import sys, os, csv
+from collections import Counter
 
-print ('sum=',a+b,';','avg=',(a+b)/2)
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+
+try:
+    from src.lib.text import normalize, tokenize
+except ImportError as e:
+    sys.exit(f"Ошибка импорта: {e}")
+
+def main():
+    input_file = 'C:\\Users\\Hp\\Desktop\\IDZ-25-6\\src\\lab04\\text.test'
+    output_file = 'src\\lab04\\table.csv'
+
+    try:
+        with open(input_file, 'r', encoding='utf-8') as f:
+            text = f.read()
+        if not text.strip():
+            sys.exit("Файл пустой")
+    except Exception as e:
+        sys.exit(f"Ошибка чтения {input_file}: {e}")
+
+    try:
+        normalized = normalize(text)
+        words = tokenize(normalized)
+        if not words:
+            sys.exit("После обработки слов не найдено")
+        word_freq = Counter(words)
+    except Exception as e:
+        sys.exit(f"Ошибка обработки текста: {e}")
+
+    try:
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
+        with open(output_file, 'w', encoding='utf-8', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(['word', 'count'])
+            for word, count in sorted(word_freq.items(), key=lambda x: (-x[1], x[0])):
+                writer.writerow([word, count])
+    except Exception as e:
+        sys.exit(f"Ошибка сохранения {output_file}: {e}")
+
+    top5 = sorted(word_freq.items(), key=lambda x: (-x[1], x[0]))[:5]
+    print(f"Всего слов: {len(words)}")
+    print(f"Уникальных слов: {len(word_freq)}")
+    print('Топ 5:')
+    k = 0
+    print(f'{"слово:":^15} |{"частота":^15}')
+    print(f"{'----------' * 3:^30}")
+    for word, counts in top5:
+        if k == 5:
+            break
+        k += 1
+        print(f'{word:^15} |{counts:^15}')
+
+
+if __name__ == "__main__":
+    main()
 ```
 
-![alt text](images/lab01/02.img.png)
+![alt text](images/lab04/02.img.png)
 
-Задание 3-ое
+# Лаба 3
+
+Задание 1-ое
 
 ```python
-price = int(input("Введите цену:"))
-discount = int(input("Введите скидку:"))/100
-vat = int(input("Введите НДС:"))/100
 
-base = price * (1 - discount)
-vat_amount = base * vat
-total = base + vat_amount
+def normalize(text: str, *, casefold: bool = True, yo2e: bool = True):
+    if casefold:
+        text = text.casefold()
+    if yo2e:
+        text = text.replace('ё', 'е')
 
-print("База после скидки:",base)
-print("НДС:",vat_amount)
-print("Итого к оплате:",total)
+    if '\t' in text or '\r' in text or '\n' in text:
+        text = text.replace('\t', ' ')
+        text = text.replace('\r', ' ')
+        text = text.replace('\n', ' ')
+
+    s = text.split()
+    itog = ''
+    for i in s:
+        itog = itog + ' ' + str(i)
+
+    itog = itog.strip()
+
+    return itog
+
+def tokenize(text: str):
+    text = normalize(text)
+
+    pct_to_rplc = [',', '.', '!', '?', ';', ':', '(', ')', '[', ']', '{', '}', '"', "'"]
+
+    for rep in pct_to_rplc:
+        text = text.replace(rep, ' ')
+
+    text_split = text.split()
+
+    itog = list()
+
+    for el in text_split:
+        ok = 1
+        for smbl in el:
+            if smbl.isalnum():
+                ok = 1
+            else:
+                ok = 0
+
+        if ok == 1:
+            itog = itog + [el]
+
+
+    return itog
+
+def count_freq(tokens: list[str]):
+    uniq = list(set(tokens))
+
+    l = list()
+
+    for el in uniq:
+        kort = (el, tokens.count(el))
+        l = l + [kort]
+
+    d = dict(l)
+
+    return d
+
+def top_n(freq: dict[str, int], n: int = 5):
+
+    sorted_freq = sorted(freq.items(), key=lambda item: item[1], reverse = True)
+
+    l = list(sorted_freq)
+
+    alph = []
+    alph_sort = []
+
+    for el_in_l in range(0, len(l) - 2):
+        if l[el_in_l][1] == l[el_in_l + 1][1]:
+            alph = [l[el_in_l]] + [l[el_in_l + 1]]
+            del l[el_in_l]
+            del l[el_in_l]
+            alph_sort = sorted(alph)
+
+            l = alph_sort + l
+
+    itog = l[:n]
+
+    return itog
 ```
+![alt text](images/lab03/01.img.png.png)
 
-![alt text](images/lab01/03.img.png)
-
-Задание 4-ое
+Задание 2-ое
 
 ```python
-min = int(input("Mинуты:"))
+from src.lib.text import *
 
-print(f'{min//60}:{min%60}')
+t = "Привет, мир! Привет!!!"
+
+print("Всего слов:", len(tokenize(t)))
+print("Уникальных слов:", len(count_freq(tokenize(t))))
+print("Топ-5:")
+
+for top_num in range(0, len(count_freq(tokenize(t)))):
+    print ( top_n(count_freq(tokenize(t)), 5)[top_num][0],': ',top_n(count_freq(tokenize(t)), 5)[top_num][1], sep='')
 ```
 
-![alt text](images/lab01/04.img.png)
+![alt text](images/lab03/02.img.png.png)
 
-Задание 5-ое
-
-```python
-N = input ("ФИО:")
-I = N.split()
-initial=""
-ll=2
-for i in range(0,3):
-    initial = initial + I[i][0]
-    ll = len(I[i]) + ll
-print("Инициалы:",initial.upper())
-print("Длина (символов):",ll)
-```
-
-![alt text](images/lab01/05.img.png)
 
 # Лаба 2
 
@@ -298,213 +438,70 @@ def format_record(rec):
 ```
 
 ![alt text](images/lab02/03.img.png)
-
-# Лаба 3
+# Лаба 1
 
 Задание 1-ое
 
 ```python
+Name=str(input("Имя:"))
+Age=int(input("Возраст:"))
 
-def normalize(text: str, *, casefold: bool = True, yo2e: bool = True):
-    if casefold:
-        text = text.casefold()
-    if yo2e:
-        text = text.replace('ё', 'е')
-
-    if '\t' in text or '\r' in text or '\n' in text:
-        text = text.replace('\t', ' ')
-        text = text.replace('\r', ' ')
-        text = text.replace('\n', ' ')
-
-    s = text.split()
-    itog = ''
-    for i in s:
-        itog = itog + ' ' + str(i)
-
-    itog = itog.strip()
-
-    return itog
-
-def tokenize(text: str):
-    text = normalize(text)
-
-    pct_to_rplc = [',', '.', '!', '?', ';', ':', '(', ')', '[', ']', '{', '}', '"', "'"]
-
-    for rep in pct_to_rplc:
-        text = text.replace(rep, ' ')
-
-    text_split = text.split()
-
-    itog = list()
-
-    for el in text_split:
-        ok = 1
-        for smbl in el:
-            if smbl.isalnum():
-                ok = 1
-            else:
-                ok = 0
-
-        if ok == 1:
-            itog = itog + [el]
-
-
-    return itog
-
-def count_freq(tokens: list[str]):
-    uniq = list(set(tokens))
-
-    l = list()
-
-    for el in uniq:
-        kort = (el, tokens.count(el))
-        l = l + [kort]
-
-    d = dict(l)
-
-    return d
-
-def top_n(freq: dict[str, int], n: int = 5):
-
-    sorted_freq = sorted(freq.items(), key=lambda item: item[1], reverse = True)
-
-    l = list(sorted_freq)
-
-    alph = []
-    alph_sort = []
-
-    for el_in_l in range(0, len(l) - 2):
-        if l[el_in_l][1] == l[el_in_l + 1][1]:
-            alph = [l[el_in_l]] + [l[el_in_l + 1]]
-            del l[el_in_l]
-            del l[el_in_l]
-            alph_sort = sorted(alph)
-
-            l = alph_sort + l
-
-    itog = l[:n]
-
-    return itog
+print("Привет,",Name,"! Через год тебе будет",Age+1)
 ```
-![alt text](images/lab03/01.img.png.png)
+
+![alt text](images/lab01/01.img.png)
 
 Задание 2-ое
 
 ```python
-from src.lib.text import *
+a=float(input('a:'))
+b=float(input('b:'))
 
-t = "Привет, мир! Привет!!!"
-
-print("Всего слов:", len(tokenize(t)))
-print("Уникальных слов:", len(count_freq(tokenize(t))))
-print("Топ-5:")
-
-for top_num in range(0, len(count_freq(tokenize(t)))):
-    print ( top_n(count_freq(tokenize(t)), 5)[top_num][0],': ',top_n(count_freq(tokenize(t)), 5)[top_num][1], sep='')
+print ('sum=',a+b,';','avg=',(a+b)/2)
 ```
 
-![alt text](images/lab03/02.img.png.png)
+![alt text](images/lab01/02.img.png)
 
-# Лaба 4
-
-Текст в тестовом файле:
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum".
-
-Задание 1-ое
-```python
-import csv
-from pathlib import Path
-
-
-def read_text(path: str | Path, encoding: str = "utf-8") -> str:
-    with open(path, 'r', encoding=encoding) as f:
-        return f.read()
-
-
-def write_csv(rows: list[tuple | list], path: str | Path, header: tuple[str, ...] | None = None) -> None:
-    if rows and len(set(len(row) for row in rows)) != 1:
-        raise ValueError("Все строки должны иметь одинаковую длину")
-
-    with open(path, 'w', newline='', encoding='utf-8') as f:
-        writer = csv.writer(f)
-        if header:
-            writer.writerow(header)
-        writer.writerows(rows)
-
-
-if __name__ == "__main__":
-    try:
-        txt = read_text('src/lab04/Text.test')
-        print(f"Прочитано: {txt}")
-    except FileNotFoundError:
-        print("Файл text.test не найден")
-
-    write_csv([("word", "count"), ("test", 3)], "table.csv")
-    print("файл csv создан!")
-```
-
-![alt text](images/lab04/01.img.png)
-
-Задание 2-ое
+Задание 3-ое
 
 ```python
-import sys, os, csv
-from collections import Counter
+price = int(input("Введите цену:"))
+discount = int(input("Введите скидку:"))/100
+vat = int(input("Введите НДС:"))/100
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+base = price * (1 - discount)
+vat_amount = base * vat
+total = base + vat_amount
 
-try:
-    from src.lib.text import normalize, tokenize
-except ImportError as e:
-    sys.exit(f"Ошибка импорта: {e}")
-
-def main():
-    input_file = 'C:\\Users\\Hp\\Desktop\\IDZ-25-6\\src\\lab04\\text.test'
-    output_file = 'src\\lab04\\table.csv'
-
-    try:
-        with open(input_file, 'r', encoding='utf-8') as f:
-            text = f.read()
-        if not text.strip():
-            sys.exit("Файл пустой")
-    except Exception as e:
-        sys.exit(f"Ошибка чтения {input_file}: {e}")
-
-    try:
-        normalized = normalize(text)
-        words = tokenize(normalized)
-        if not words:
-            sys.exit("После обработки слов не найдено")
-        word_freq = Counter(words)
-    except Exception as e:
-        sys.exit(f"Ошибка обработки текста: {e}")
-
-    try:
-        os.makedirs(os.path.dirname(output_file), exist_ok=True)
-        with open(output_file, 'w', encoding='utf-8', newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow(['word', 'count'])
-            for word, count in sorted(word_freq.items(), key=lambda x: (-x[1], x[0])):
-                writer.writerow([word, count])
-    except Exception as e:
-        sys.exit(f"Ошибка сохранения {output_file}: {e}")
-
-    top5 = sorted(word_freq.items(), key=lambda x: (-x[1], x[0]))[:5]
-    print(f"Всего слов: {len(words)}")
-    print(f"Уникальных слов: {len(word_freq)}")
-    print('Топ 5:')
-    k = 0
-    print(f'{"слово:":^15} |{"частота":^15}')
-    print(f"{'----------' * 3:^30}")
-    for word, counts in top5:
-        if k == 5:
-            break
-        k += 1
-        print(f'{word:^15} |{counts:^15}')
-
-
-if __name__ == "__main__":
-    main()
+print("База после скидки:",base)
+print("НДС:",vat_amount)
+print("Итого к оплате:",total)
 ```
 
-![alt text](images/lab04/02.img.png)
+![alt text](images/lab01/03.img.png)
+
+Задание 4-ое
+
+```python
+min = int(input("Mинуты:"))
+
+print(f'{min//60}:{min%60}')
+```
+
+![alt text](images/lab01/04.img.png)
+
+Задание 5-ое
+
+```python
+N = input ("ФИО:")
+I = N.split()
+initial=""
+ll=2
+for i in range(0,3):
+    initial = initial + I[i][0]
+    ll = len(I[i]) + ll
+print("Инициалы:",initial.upper())
+print("Длина (символов):",ll)
+```
+
+![alt text](images/lab01/05.img.png)
