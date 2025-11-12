@@ -31,6 +31,7 @@ def csv_to_xlsx(csv_path, xlsx_path):
         ws.append(row)
 
     for col in ws.columns:
+
         max_len = max(len(str(cell.value or "")) for cell in col)
         col_letter = col[0].column_letter
         ws.column_dimensions[col_letter].width = max(max_len + 2, 8)

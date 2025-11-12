@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="635a5e94-4969-4492-9d94-14937eb0befe" name="Changes" comment="" />
+    <list default="true" id="635a5e94-4969-4492-9d94-14937eb0befe" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lab05/cvs_xlsx.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/lab05/cvs_xlsx.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,28 +25,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.01_arrays.executor&quot;: &quot;Run&quot;,
-    &quot;Python.01_greeting.executor&quot;: &quot;Run&quot;,
-    &quot;Python.02_matrix.executor&quot;: &quot;Run&quot;,
-    &quot;Python.02_sum_avg.executor&quot;: &quot;Run&quot;,
-    &quot;Python.03_discount_vat.executor&quot;: &quot;Run&quot;,
-    &quot;Python.03_tupples.executor&quot;: &quot;Run&quot;,
-    &quot;Python.04_minutes_to_hhmm.executor&quot;: &quot;Run&quot;,
-    &quot;Python.05_initials_and_len.executor&quot;: &quot;Run&quot;,
-    &quot;Python.cvs_xlsx.executor&quot;: &quot;Run&quot;,
-    &quot;Python.io_txt_csv.executor&quot;: &quot;Run&quot;,
-    &quot;Python.json_csv.executor&quot;: &quot;Run&quot;,
-    &quot;Python.text.executor&quot;: &quot;Run&quot;,
-    &quot;Python.text_report.executor&quot;: &quot;Run&quot;,
-    &quot;Python.text_stats.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Hp/Desktop/IDZ-25-6&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.01_arrays.executor": "Run",
+    "Python.01_greeting.executor": "Run",
+    "Python.02_matrix.executor": "Run",
+    "Python.02_sum_avg.executor": "Run",
+    "Python.03_discount_vat.executor": "Run",
+    "Python.03_tupples.executor": "Run",
+    "Python.04_minutes_to_hhmm.executor": "Run",
+    "Python.05_initials_and_len.executor": "Run",
+    "Python.__init__.executor": "Run",
+    "Python.cli_text.executor": "Run",
+    "Python.cvs_xlsx.executor": "Run",
+    "Python.io_txt_csv.executor": "Run",
+    "Python.json_csv.executor": "Run",
+    "Python.text.executor": "Run",
+    "Python.text_report.executor": "Run",
+    "Python.text_stats.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/Hp/Desktop/IDZ-25-6"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="text_report" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="IDZ-25-6" />
