@@ -1,4 +1,8 @@
 import argparse
+from pathlib import Path
+
+from src.lib.text import normalize, tokenize, top_n, count_freq
+
 
 def main():
     parser = argparse.ArgumentParser(description="CLI‑утилиты лабораторной №6")
@@ -16,7 +20,46 @@ def main():
 
     args = parser.parse_args()
 
+    file_path = Path(args.input)
+    if not file_path.exists():
+        parser.error(f"Файл '{args.input}' не найден")
+
+
     if args.command == "cat":
-        """ Реализация команды cat """
+        try:
+            with file_path.open("r", encoding="utf-8") as f:
+                for i, line in enumerate(f, start=1):
+                    line = line.rstrip("\n")
+                    if args.n:
+                        print(f"{i}: {line}")
+                    else:
+                        print(line)
+        except Exception as e:
+            parser.error(f"Ошибка при чтении файла: {e}")
+
     elif args.command == "stats":
-        """ Реализация команды stats """
+        try:
+            with file_path.open("r", encoding="utf-8") as f:
+                text = f.read()
+
+            normalized = normalize(text)
+            words = tokenize(normalized)
+            freq = count_freq(words)
+            top_words = top_n(freq, args.top)
+
+            if not top_words:
+                print("Слова не найдены в файле")
+                return
+
+            print(f"Топ {args.top} слов:")
+            for word, count in top_words:
+                print(f"{word}: {count}")
+
+        except Exception as e:
+            parser.error(f"Ошибка при чтении файла: {e}")
+
+    else:
+        parser.print_help()
+
+if __name__ == "__main__":
+    main()
