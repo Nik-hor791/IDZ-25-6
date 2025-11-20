@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="635a5e94-4969-4492-9d94-14937eb0befe" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/out/people.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/out/people.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lab05/json_csv.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/lab05/json_csv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lab06/cli_convert.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/lab06/cli_convert.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lab06/cli_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/lab06/cli_text.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,10 +52,15 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Hp/Desktop/IDZ-25-6&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Hp/Desktop/IDZ-25-6/src/lab06&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Hp\Desktop\IDZ-25-6\src\lab06" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.cli_convert">
     <configuration name="cli_convert" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="IDZ-25-6" />
       <option name="ENV_FILES" value="" />
@@ -129,6 +137,11 @@
           <url>file://$PROJECT_DIR$/src/lib/text.py</url>
           <line>96</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/lab06/cli_convert.py</url>
+          <line>50</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

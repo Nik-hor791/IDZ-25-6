@@ -1,6 +1,16 @@
 import argparse
-from lab05.json_csv import *
-from lab05.csv_xlsx import *
+from pathlib import Path
+
+import sys
+import os
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+
+try:
+    from src.lab05.json_csv import json_to_csv
+    from src.lab05.cvs_xlsx import csv_to_xlsx
+except ImportError as e:
+    sys.exit(f"Ошибка импорта: {e}")
 
 def main():
     parser = argparse.ArgumentParser(description="Конвертер JSON↔CSV, CSV→XLSX")
@@ -37,5 +47,5 @@ def main():
         parser.print_help()
 
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+#    main()
