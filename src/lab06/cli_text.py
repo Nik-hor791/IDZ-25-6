@@ -1,8 +1,6 @@
 import argparse
 from pathlib import Path
 
-from src.lib.text import normalize, tokenize, top_n, count_freq
-
 
 def main():
     parser = argparse.ArgumentParser(description="CLI‑утилиты лабораторной №6")
