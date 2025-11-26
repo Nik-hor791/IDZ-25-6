@@ -137,7 +137,8 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-
+Меню помощи Help:
+![alt text](images/lab06/json2csv_help.png)
 # Лаба 5
 
 Задание А 
