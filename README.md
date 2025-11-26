@@ -81,6 +81,8 @@ if __name__ == "__main__":
 ![alt text](<images/lab06/cat -n.png>)
 ![alt text](images/lab06/stats.png)
 
+Меню помощи Help:
+![alt text](images/lab06/help.png)
 Cli_convert.py
 ```python
 import argparse
