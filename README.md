@@ -1,3 +1,141 @@
+# Лаба 7
+
+# Лаба 6
+
+Cli_text.py
+```python
+import argparse
+from pathlib import Path
+
+import sys
+import os
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+
+try:
+    from src.lib.text import normalize, tokenize, top_n, count_freq
+except ImportError as e:
+    sys.exit(f"Ошибка импорта: {e}")
+
+def main():
+    parser = argparse.ArgumentParser(description="CLI‑утилиты лабораторной №6")
+    subparsers = parser.add_subparsers(dest="command")
+
+    # подкоманда cat
+    cat_parser = subparsers.add_parser("cat", help="Вывести содержимое файла")
+    cat_parser.add_argument("--input", required=True)
+    cat_parser.add_argument("-n", action="store_true", help="Нумеровать строки")
+
+    # подкоманда stats
+    stats_parser = subparsers.add_parser("stats", help="Частоты слов")
+    stats_parser.add_argument("--input", required=True)
+    stats_parser.add_argument("--top", type=int, default=5)
+
+    args = parser.parse_args()
+
+    file_path = Path(args.input)
+    if not file_path.exists():
+        parser.error(f"Файл '{args.input}' не найден")
+
+
+    if args.command == "cat":
+        try:
+            with file_path.open("r", encoding="utf-8") as f:
+                for i, line in enumerate(f, start=1):
+                    line = line.rstrip("\n")
+                    if args.n:
+                        print(f"{i}: {line}")
+                    else:
+                        print(line)
+        except Exception as e:
+            parser.error(f"Ошибка при чтении файла: {e}")
+
+    elif args.command == "stats":
+        try:
+            with file_path.open("r", encoding="utf-8") as f:
+                text = f.read()
+
+            normalized = normalize(text)
+            words = tokenize(normalized)
+            freq = count_freq(words)
+            top_words = top_n(freq, args.top)
+
+            if not top_words:
+                print("Слова не найдены в файле")
+                return
+
+            print(f"Топ {args.top} слов:")
+            for word, count in top_words:
+                print(f"{word}: {count}")
+
+        except Exception as e:
+            parser.error(f"Ошибка при чтении файла: {e}")
+
+    else:
+        parser.print_help()
+
+if __name__ == "__main__":
+    main()
+
+```
+![alt text](<images/lab06/cat -n.png>)
+![alt text](images/lab06/stats.png)
+
+Cli_convert.py
+```python
+import argparse
+from pathlib import Path
+
+import sys
+import os
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+
+try:
+    from src.lab05.json_csv import json_to_csv
+    from src.lab05.cvs_xlsx import csv_to_xlsx
+except ImportError as e:
+    sys.exit(f"Ошибка импорта: {e}")
+
+def main():
+    parser = argparse.ArgumentParser(description="Конвертер JSON↔CSV, CSV→XLSX")
+    sub = parser.add_subparsers(dest="cmd")
+
+    # json → csv
+    json2csv_parser = sub.add_parser("json2csv")
+    json2csv_parser.add_argument("--in", dest="input", required=True, help="Путь к входному JSON")
+    json2csv_parser.add_argument("--out", dest="output", required=True, help="Путь к выходному CSV")
+
+    # csv → json
+    csv2json_parser = sub.add_parser("csv2json")
+    csv2json_parser.add_argument("--in", dest="input", required=True, help="Путь к входному CSV")
+    csv2json_parser.add_argument("--out", dest="output", required=True, help="Путь к выходному JSON")
+
+    # csv → xlsx
+    csv2xlsx_parser = sub.add_parser("csv2xlsx")
+    csv2xlsx_parser.add_argument("--in", dest="input", required=True, help="Путь к входному CSV")
+    csv2xlsx_parser.add_argument("--out", dest="output", required=True, help="Путь к выходному XLSX")
+
+    args = parser.parse_args()
+
+    input_path = Path(args.input)
+    if not input_path.exists():
+        parser.error(f"Входной файл '{args.input}' не найден")
+
+    if args.cmd == "json2csv":
+        json_to_csv(args.input, args.output)
+    elif args.cmd == "csv2json":
+        csv_to_json(args.input, args.output)
+    elif args.cmd == "csv2xlsx":
+        csv_to_xlsx(args.input, args.output)
+    else:
+        parser.print_help()
+
+
+if __name__ == "__main__":
+    main()
+```
+
 # Лаба 5
 
 Задание А 
