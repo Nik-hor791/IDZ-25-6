@@ -4,12 +4,13 @@ from pathlib import Path
 import sys
 import os
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 try:
     from src.lib.text import normalize, tokenize, top_n, count_freq
 except ImportError as e:
     sys.exit(f"Ошибка импорта: {e}")
+
 
 def main():
     parser = argparse.ArgumentParser(description="CLI‑утилиты лабораторной №6")
@@ -30,7 +31,6 @@ def main():
     file_path = Path(args.input)
     if not file_path.exists():
         parser.error(f"Файл '{args.input}' не найден")
-
 
     if args.command == "cat":
         try:
@@ -68,6 +68,6 @@ def main():
     else:
         parser.print_help()
 
+
 if __name__ == "__main__":
     main()
-

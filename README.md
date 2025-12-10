@@ -172,6 +172,11 @@ def test_invalid_suffix_to_json(tmp_path: Path):  # Входной файл не
 ```
 
 ![alt text](images/lab07/test_json_csv.png)
+
+Форматирование black
+
+![alt text](images/lab07/black.png)
+
 # Лаба 6
 
 Cli_text.py

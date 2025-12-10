@@ -2,6 +2,7 @@ from pathlib import Path
 import json
 import csv
 
+
 def json_to_csv(json_path: str, csv_path: str) -> None:
     json_file = Path(json_path)
     csv_file = Path(csv_path)
@@ -80,5 +81,15 @@ def csv_to_json(csv_path: str, json_path: str) -> None:
         raise ValueError(f"Ошибка записи JSON: {e}")
 
 
-print(json_to_csv('C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\samples\\people.json','C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\out\\people_from_json.csv'))
-print(csv_to_json('C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\samples\\people.csv','C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\out\\people_from_csv.json'))
+print(
+    json_to_csv(
+        "C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\samples\\people.json",
+        "C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\out\\people_from_json.csv",
+    )
+)
+print(
+    csv_to_json(
+        "C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\samples\\people.csv",
+        "C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\out\\people_from_csv.json",
+    )
+)

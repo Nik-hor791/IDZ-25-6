@@ -3,9 +3,10 @@ import pytest
 import sys
 import os
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from src.lib.text import normalize, tokenize, count_freq, top_n
+
 
 @pytest.mark.parametrize(
     "source, expected",
@@ -68,7 +69,7 @@ def test_count_freq(tokens, expected):
                 "d": 2,
                 "e": 1,
                 "f": 1,
-            }, 
+            },
             [("a", 5), ("b", 4), ("c", 3), ("d", 2), ("e", 1)],
         ),
     ],

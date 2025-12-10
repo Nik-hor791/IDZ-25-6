@@ -2,7 +2,7 @@ def transpose(mat):
     if mat == []:
         return mat
     else:
-        #Проверка на рванность
+        # Проверка на рванность
         l_mat = len(mat[0])
         ok = 1
         for i in mat:
@@ -10,13 +10,13 @@ def transpose(mat):
                 ok = 0
             else:
                 ok = 1
-        #Проверка на рванность
+        # Проверка на рванность
         if ok == 1:
 
             trans = [[mat[j][i] for j in range(len(mat))] for i in range(len(mat[0]))]
             return trans
         else:
-            return ('ValueError')
+            return "ValueError"
 
 
 def row_sums(mat):
@@ -35,7 +35,8 @@ def row_sums(mat):
             s = sum(i)
             t = t + [s]
         return t
-    else: ('ValueError')
+    else:
+        ("ValueError")
 
 
 def col_sums(mat):
@@ -59,17 +60,18 @@ def col_sums(mat):
             i_num_sum = 0
         return t
 
+
 print(transpose([[1, 2, 3]]))
 print(transpose([[1], [2], [3]]))
 print(transpose([[1, 2], [3, 4]]))
 print(transpose([]))
 print(transpose([[1, 2], [3]]))
-print('_______________')
+print("_______________")
 print(row_sums([[1, 2, 3], [4, 5, 6]]))
 print(row_sums([[-1, 1], [10, -10]]))
 print(row_sums([[0, 0], [0, 0]]))
 print(row_sums([[1, 2], [3]]))
-print('_______________')
+print("_______________")
 print(col_sums([[1, 2, 3], [4, 5, 6]]))
 print(col_sums([[-1, 1], [10, -10]]))
 print(col_sums([[0, 0], [0, 0]]))

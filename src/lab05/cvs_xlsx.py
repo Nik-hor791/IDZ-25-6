@@ -2,6 +2,7 @@ from pathlib import Path
 import csv
 from openpyxl import Workbook
 
+
 def csv_to_xlsx(csv_path: str, xlsx_path: str) -> None:
     """
     Конвертирует CSV в XLSX.
@@ -40,4 +41,10 @@ def csv_to_xlsx(csv_path: str, xlsx_path: str) -> None:
 
     wb.save(xlsx_file)
 
-print(csv_to_xlsx('C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\samples\\people.csv','C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\out\\people.xlsx'))
+
+print(
+    csv_to_xlsx(
+        "C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\samples\\people.csv",
+        "C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\out\\people.xlsx",
+    )
+)
