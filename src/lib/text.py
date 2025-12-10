@@ -58,28 +58,10 @@ def count_freq(tokens: list[str]):
 
     return d
 
-def top_n(freq: dict[str, int], n: int = 5):
-
-    sorted_freq = sorted(freq.items(), key=lambda item: item[1], reverse = True)
-
-    l = list(sorted_freq)
-
-    alph = []
-    alph_sort = []
-
-    for el_in_l in range(0, len(l) - 2):
-        if l[el_in_l][1] == l[el_in_l + 1][1]:
-            alph = [l[el_in_l]] + [l[el_in_l + 1]]
-            del l[el_in_l]
-            del l[el_in_l]
-            alph_sort = sorted(alph)
-
-            l = alph_sort + l
-
-    itog = l[:n]
-
-    return itog
-
+def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
+    if type(freq) is not dict:
+        raise TypeError("Нужны словари")
+    return sorted(freq.items(), key=lambda item: (-item[1], item[0]))[:n]
 
 
 
@@ -103,3 +85,4 @@ def top_n(freq: dict[str, int], n: int = 5):
 #print('_______________')
 #print(top_n(count_freq(["a","b","a","c","b","a"]), 2))
 #print(top_n(count_freq(["bb","aa","bb","aa","cc"]), 2))
+print(top_n(count_freq(["яблоко","апельсин","банан"])))
