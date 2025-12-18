@@ -1,3 +1,257 @@
+# Лаба 9
+group.py
+
+```python
+import csv
+from pathlib import Path
+
+
+import sys
+import os
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from lab08.models import Student
+
+HEADER = ["fio", "birthdate", "group", "gpa"]
+
+class Group:
+    """
+    CSV-based student storage with CRUD operations.
+    """
+
+    def __init__(self, storage_path: str):
+        self.path = Path(storage_path)
+        self._ensure_storage_exists()
+
+    def _ensure_storage_exists(self) -> None:
+        """Create CSV file with header if it does not exist."""
+        if not self.path.exists():
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            with self.path.open("w", encoding="utf-8", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow(HEADER)
+
+    def _read_all(self):
+        """Load all rows from CSV → list[Student]."""
+        students = []
+        with self.path.open("r", encoding="utf-8", newline="") as f:
+            reader = csv.DictReader(f)
+
+            if reader.fieldnames != HEADER:
+                raise ValueError(
+                    f"Invalid CSV header. Expected {HEADER}, got {reader.fieldnames}"
+                )
+
+            for row in reader:
+                try:
+                    students.append(
+                        Student(
+                            fio=row["fio"],
+                            birthdate=row["birthdate"],
+                            group=row["group"],
+                            gpa=float(row["gpa"]),
+                        )
+                    )
+                except Exception as e:
+                    raise ValueError(f"Invalid row in CSV: {row}") from e
+
+        return students
+
+    def _write_all(self, students: list[Student]) -> None:
+        """Rewrite CSV file with the given student list."""
+        with self.path.open("w", encoding="utf-8", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=HEADER)
+            writer.writeheader()
+            for st in students:
+                writer.writerow(
+                    {
+                        "fio": st.fio,
+                        "birthdate": st.birthdate,
+                        "group": st.group,
+                        "gpa": st.gpa,
+                    }
+                )
+
+    # CRUD OPERATIONS
+    def list(self) -> list[Student]:
+        """Return all students."""
+        return self._read_all()
+
+    def add(self, student: Student) -> None:
+        """Add a new student (no duplicates by FIO)."""
+        students = self._read_all()
+
+        if any(st.fio == student.fio for st in students):
+            raise ValueError(f"Student already exists: {student.fio}")
+
+        students.append(student)
+        self._write_all(students)
+
+    def find(self, substr: str):
+        """Find students whose FIO contains the given substring."""
+        substr = substr.lower()
+        return [st for st in self._read_all() if substr in st.fio.lower()]
+
+    def remove(self, fio: str) -> None:
+        """Delete the student with the exact FIO."""
+        students = self._read_all()
+        new = [st for st in students if st.fio != fio]
+
+        if len(new) == len(students):
+            raise ValueError(f"No student with fio: {fio}")
+
+        self._write_all(new)
+
+    def update(self, fio: str, **fields) -> None:
+        """
+        Update fields of an existing student.
+        Example:
+            group.update("Ivanov Ivan", gpa=4.9, group="SE-01")
+        """
+        students = self._read_all()
+        updated = False
+
+        for st in students:
+            if st.fio == fio:
+                for key, value in fields.items():
+                    if not hasattr(st, key):
+                        raise ValueError(f"Unknown field: {key}")
+                    setattr(st, key, value)
+                updated = True
+                break
+
+        if not updated:
+            raise ValueError(f"No student with fio: {fio}")
+
+        self._write_all(students)
+
+```
+Студенты до теста:
+![alt text](images/lab09/students_csv.png)
+
+тест:
+![alt text](images/lab09/test.png)
+
+Студенты после теста:
+![alt text](images/lab09/test_results.png)
+
+# Лаба 8
+Models.py
+
+```python
+from dataclasses import dataclass
+from datetime import datetime, date
+
+
+@dataclass
+class Student:
+    fio: str
+    birthdate: str
+    group: str
+    gpa: float
+
+    def __str__(self):
+        return f'Obj Student. fio: {self.fio}, birthdate: {self.birthdate}, group: {self.group}, gpa: {self.gpa}'
+
+    def __post_init__(self):
+        if isinstance(self.gpa, str) or self.gpa < 0 or self.gpa > 5:
+            raise ValueError('Invalid GPA-score')
+        try:
+            self._date_of_birth = datetime.strptime(self.birthdate, '%Y-%m-%d')
+        except:
+            raise ValueError('Invalid date format')
+
+    @property
+    def age(self) -> any:
+        return date.today().year - self._date_of_birth.year
+
+    def to_dict(self) -> dict:
+        return {
+            "fio": self.fio,
+            "birthdate": self.birthdate,
+            "group": self.group,
+            "gpa": self.gpa
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict):
+        return Student(d["fio"], d["birthdate"], d["group"], d["gpa"])
+```
+
+
+Seriallize.py
+
+```python
+import json
+import os
+from models import Student
+
+
+def process_students():
+    """Основная функция обработки студентов"""
+
+    # Определяем пути к файлам
+    base_dir = os.path.join("..", "..", "data", "lab08")
+    input_path = os.path.join(base_dir, "students_input.json")
+    output_path = os.path.join(base_dir, "students_output.json")
+
+    # Создаем директорию, если ее нет
+    os.makedirs(base_dir, exist_ok=True)
+
+    # Проверяем, существует ли input файл
+    if not os.path.exists(input_path):
+        print(f"Файл {input_path} не найден!")
+        print("Создаю пример файла...")
+
+        # Создаем пример данных
+        example_students = [
+            Student(fio="Иванов Иван ", birthdate="2000-01-15", group="ГРП-101", gpa=4.5),
+            Student(fio="Петрова Мария", birthdate="2001-03-22", group="ГРП-102", gpa=4.8),
+        ]
+
+        # Сохраняем пример в input файл
+        example_data = [s.to_dict() for s in example_students]
+        with open(input_path, "w", encoding="utf-8") as f:
+            json.dump(example_data, f, ensure_ascii=False, indent=2)
+
+        print(f"Пример файла создан в {input_path}")
+        return
+
+    # Читаем данные из input файла
+    print(f"Обработка файла {input_path}")
+    with open(input_path, "r", encoding="utf-8") as f:
+        students_data = json.load(f)
+
+    # Создаем объекты Student
+    students = []
+    for item in students_data:
+        try:
+            student = Student.from_dict(item)
+            students.append(student)
+        except ValueError as e:
+            print(f"Ошибка в данных: {item.get('fio', 'Неизвестный')} - {e}")
+
+    # Обрабатываем данные
+    if students:
+        print(f"\nУспешно загружено {len(students)} студентов:")
+        for student in students:
+            print(f"  - {student.fio}, {student.birthdate}, => {student.age} лет, GPA: {student.gpa}")
+
+        # Сохраняем результат
+        output_data = [s.to_dict() for s in students]
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(output_data, f, ensure_ascii=False, indent=2)
+
+        print(f"\nРезультат сохранен в {output_path}")
+    else:
+        print("Нет корректных данных для обработки")
+
+
+if __name__ == "__main__":
+    process_students()
+```
+![input.png](images/lab08/input.png)
+![result.png](images/lab08/result.png)
 # Лаба 7
 Test text
 ```python

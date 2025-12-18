@@ -83,8 +83,8 @@ def csv_to_json(csv_path: str, json_path: str) -> None:
 
 print(
     json_to_csv(
-        "C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\samples\\people.json",
-        "C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\out\\people_from_json.csv",
+        "C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\lab08\\students_output.json",
+        "C:\\Users\\Hp\\Desktop\\IDZ-25-6\\data\\lab09\\students.csv",
     )
 )
 print(
